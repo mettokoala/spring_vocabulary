@@ -47,6 +47,11 @@ public class BatchConfig {
 	}
 
 	@Bean
+	Job csvToDatabaseJob() {
+		return new JobBuilder("csvToDatabaseJob", jobRepository).start(csvToDatabaseStep()).build();
+	}
+
+	@Bean
 	Step csvToDatabaseStep() {
 		return new StepBuilder("csvToDatabaseStep", jobRepository)
 				.<Word, Word> chunk(10, transactionManager)
@@ -56,10 +61,4 @@ public class BatchConfig {
 				.build();
 	}
 
-	@Bean
-	Job importWordsJob() {
-		return new JobBuilder("importWordsJob", jobRepository)
-				.start(csvToDatabaseStep())
-				.build();
-	}
 }

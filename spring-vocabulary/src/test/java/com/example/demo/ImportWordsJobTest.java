@@ -27,12 +27,12 @@ public class ImportWordsJobTest {
 	private JobRepositoryTestUtils jobRepositoryTestUtils;
 
 	@Autowired
-	private Job importWordsJob;
+	private Job csvToDatabaseJob;
 
 	@BeforeEach
 	void setUp() {
 		// 自動定義された JobLauncherTestUtils に対してジョブをセット
-		jobLauncherTestUtils.setJob(importWordsJob);
+		jobLauncherTestUtils.setJob(csvToDatabaseJob);
 	}
 
 	@AfterEach

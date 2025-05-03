@@ -25,11 +25,6 @@ public class CsvItemReader extends FlatFileItemReader<Word> implements Initializ
 	@Value("#{jobParameters['filePath']}")
 	private String filePath;
 
-	// ← コンストラクタには何も書かない (あるいはデフォルトコンストラクタだけ)
-	public CsvItemReader() {
-		// ここでは初期化しない
-	}
-
 	/**
 	 * Bean のプロパティ注入完了後に呼ばれる
 	 */
