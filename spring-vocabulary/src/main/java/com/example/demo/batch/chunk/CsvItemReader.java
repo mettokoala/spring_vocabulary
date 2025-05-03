@@ -16,7 +16,7 @@ import com.example.demo.domain.entity.Word;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Component("CsvItemReader")
+@Component
 @StepScope
 @Slf4j
 public class CsvItemReader extends FlatFileItemReader<Word> implements InitializingBean {

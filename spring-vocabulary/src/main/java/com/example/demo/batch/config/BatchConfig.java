@@ -37,17 +37,17 @@ public class BatchConfig {
 	}
 
 	@Bean
-	public Job resetTaskletJob() {
+	Job resetTaskletJob() {
 		return new JobBuilder("resetTaskletJob", jobRepository).start(resetTaskletStep()).build();
 	}
 
 	@Bean
-	public Step resetTaskletStep() {
+	Step resetTaskletStep() {
 		return new StepBuilder("resetTaskletStep", jobRepository).tasklet(resetTasklet, transactionManager).build();
 	}
 
 	@Bean
-	public Step csvToDatabaseStep() {
+	Step csvToDatabaseStep() {
 		return new StepBuilder("csvToDatabaseStep", jobRepository)
 				.<Word, Word> chunk(10, transactionManager)
 				.reader(csvItemReader)
@@ -57,7 +57,7 @@ public class BatchConfig {
 	}
 
 	@Bean
-	public Job importWordsJob() {
+	Job importWordsJob() {
 		return new JobBuilder("importWordsJob", jobRepository)
 				.start(csvToDatabaseStep())
 				.build();

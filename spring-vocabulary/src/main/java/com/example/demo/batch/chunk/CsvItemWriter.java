@@ -10,7 +10,7 @@ import com.example.demo.domain.repository.WordRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Component("CsvItemWriter")
+@Component
 @StepScope
 @Slf4j
 public class CsvItemWriter implements ItemWriter<Word> {

@@ -8,7 +8,7 @@ import com.example.demo.domain.entity.Word;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Component("CsvItemProcessor")
+@Component
 @StepScope
 @Slf4j
 public class CsvItemProcessor implements ItemProcessor<Word, Word> {
