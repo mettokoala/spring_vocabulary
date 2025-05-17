@@ -1,57 +1,37 @@
 // DOMが読み込まれたら実行する
 document.addEventListener('DOMContentLoaded', () => {
   const importCsvButton = document.getElementById('importCsvButton');
-  importCsvButton.addEventListener('click', importCsv);
-});
+  // あらかじめ HTML に用意した <input id="fileInput"> を取得
+  const fileInput = document.getElementById('fileInput');
 
-// CSVインポート関数
-function importCsv() {
-  // 1. ファイル入力要素を動的生成＆非表示
-  const fileInput = document.createElement('input');
-  fileInput.type = 'file';
-  fileInput.accept = '.csv';
-  fileInput.style.display = 'none';
-
-  // 2. DOMに追加してからクリック
-  document.body.appendChild(fileInput);
-  fileInput.click();
-
-  // 3. changeイベントで処理＆後片付け
-  fileInput.addEventListener('change', async function () {
+  // 「CSVインポート」ボタンがクリックされたらファイル処理を開始
+  importCsvButton.addEventListener('click', async () => {
+    // 1. ユーザーがファイルを選択しているか確認
     const file = fileInput.files[0];
-
-    // （1）ユーザーが何も選ばずキャンセルした場合
     if (!file) {
-      cleanup();
+      alert('ファイルが選択されていません。');
       return;
     }
 
-    // （2）拡張子チェック（大文字小文字を区別しない）
+    // 2. 拡張子チェック（.csv でない場合は弾く）
     const fileName = file.name;
     if (!fileName.toLowerCase().endsWith('.csv')) {
-      alert('CSVファイルを選択してください。');
-      cleanup();
+      alert('CSVファイル（.csv）を選択してください。');
       return;
     }
 
-    // （3）サーバーにアップロード
+    // 3. サーバーへアップロード（非同期処理）
     try {
       await uploadCsvFile(file);
       alert('CSVファイルがアップロードされました');
+      // 同じファイルを再度選べるように input の選択をクリア
+      fileInput.value = '';
     } catch (error) {
       console.error('アップロードエラー:', error);
-      alert(`CSVファイルのアップロードに失敗しました\n${error.message}`);
+      alert(`アップロードに失敗しました\n${error.message}`);
     }
-
-    // 4. 処理後は必ず要素を削除
-    cleanup();
   });
-
-  // ファイル入力要素を削除するヘルパー
-  function cleanup() {
-    fileInput.remove();
-  }
-}
+});
 
 // ファイルアップロード関数
 async function uploadCsvFile(file) {
@@ -59,17 +39,15 @@ async function uploadCsvFile(file) {
   const formData = new FormData();
   formData.append('file', file);
 
-  try {
-    const response = await fetch(url, {
-      method: 'POST',
-      body: formData,
-    });
+  // fetch API を使って POST リクエスト
+  const response = await fetch(url, {
+    method: 'POST',
+    body: formData,
+  });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(errorText || 'サーバーエラーが発生しました。');
-    }
-  } catch (error) {
-    throw new Error(error.message || 'ネットワークエラーが発生しました。');
+  // ステータスコードが 200 台でなければエラー扱い
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || 'サーバーエラーが発生しました。');
   }
 }
