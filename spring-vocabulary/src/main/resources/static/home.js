@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () =>{
 			return
 		}
 		const fileName = file.name;
-		if(!fileName.toLowerCase().endWith('.csv')){
+		if(!fileName.toLowerCase().endsWith('.csv')){
 			alert('CSVファイルを選択してください');
 			return
 		}
