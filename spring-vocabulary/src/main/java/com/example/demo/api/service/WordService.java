@@ -47,4 +47,8 @@ public class WordService {
 			return false;
 		}
 	}
+
+	public Word saveWord(Word word) {
+		return wordRepository.save(word);
+	}
 }

@@ -1,5 +1,10 @@
 document.addEventListener('DOMContentLoaded', () =>{
 	getAllWords();
+	
+	// ボタンのイベント登録
+	const createButton = document.getElementById('createButton');
+	createButton.addEventListener('click', createWord);
+	  
 	const fileInput = document.getElementById('fileInput');
 	const importCsvButton = document.getElementById('importCsvButton');
 	
@@ -93,6 +98,40 @@ async function getAllWords() {
         console.error(error);
         // アラートでエラーメッセージを表示
         alert('単語の読み込みに失敗しました。');
+    }
+}
+
+// 単語の新規作成
+async function createWord() {
+    // 入力内容を取得
+    const question = document.getElementById('question').value.trim();
+    const answer = document.getElementById('answer').value.trim();
+	
+	if (!question || !answer) {
+	      alert('問題と解答は両方入力してください');
+	      return;
+	}
+
+    try {
+      const response = await fetch('/words', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ question, answer })
+      });
+
+      if (!response.ok) {
+        // ステータスが200系以外の場合はエラーを投げる
+		const errorText = await response.text();
+		throw new Error(errorText || '作成に失敗しました');
+      }
+      // 成功時の表示・処理
+      document.getElementById('createForm').reset(); // フォームのリセット
+	  getAllWords();
+    } catch (error) {
+      console.error(error);
+      alert('作成に失敗しました。');
     }
 }
 
