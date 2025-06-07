@@ -1,0 +1,55 @@
+#createForm label, textarea {
+  vertical-align: top;
+}
+
+/* ラベル幅を固定して揃えたい場合 */
+#createForm label {
+  width: 50px;
+}
+#createForm textarea {
+  width: 300px;
+  height: 50px;
+}
+
+/* リストのスタイルをリセット */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+/* ボタンの基本スタイル */
+button {
+    font-size: 1rem;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    height: 50px; /* ボタンの高さを統一 */
+}
+
+/* 各ボタンに異なるフレックス比率を設定 */
+.toggle-text-button {
+    background-color: #4CAF50; /* 緑色 */
+    color: white;
+    transition: background-color 0.3s;
+    flex: 8; /* 問題ボタンの幅を大きく */
+}
+
+.status-button {
+    background-color: #008CBA; /* 青色 */
+    color: white;
+    flex: 1; /* OKボタンの幅を小さく */
+}
+
+.delete-button {
+    background-color: #f44336; /* 赤色 */
+    color: white;
+    flex: 1; /* 削除ボタンの幅を小さく */
+}
