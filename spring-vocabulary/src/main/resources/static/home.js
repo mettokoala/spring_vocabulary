@@ -71,20 +71,14 @@ function createWordList(words) {
         listItem.className = 'word-item';
         listItem.dataset.wordId = word.id;
 
-        const questionSpan = document.createElement('span');
-        questionSpan.className = 'word-question';
-        questionSpan.textContent = word.question;
-        // questionSpan.style.display = 'none';
-
-        const answerSpan = document.createElement('span');
-        answerSpan.className = 'word-answer';
-        answerSpan.textContent = word.answer;
-        // answerSpan.style.display = 'none';
-
         // 切り替えボタン
         const toggleButton = document.createElement('button');
         toggleButton.className = 'toggle-text-button';
-        toggleButton.textContent = '問題＆答え';
+        toggleButton.textContent = word.question;
+		// イベントリスナー登録
+        toggleButton.addEventListener('click', () => {
+            toggleText(toggleButton, word.question, word.answer);
+        });
 
         // ステータス更新ボタン
         const statusButton = document.createElement('button');
@@ -96,11 +90,14 @@ function createWordList(words) {
         deleteButton.className = 'delete-button';
         deleteButton.textContent = '削除';
 
-        listItem.appendChild(questionSpan);
-        listItem.appendChild(answerSpan);
         listItem.appendChild(toggleButton);
         listItem.appendChild(statusButton);
         listItem.appendChild(deleteButton);
         wordListElement.appendChild(listItem);
     });
+	
+	// 解答表示を切り替える関数
+	function toggleText(button, question, answer) {
+		button.textContent = button.textContent === question ? answer : question;
+	}
 }
