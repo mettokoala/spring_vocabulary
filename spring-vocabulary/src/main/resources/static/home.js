@@ -73,6 +73,25 @@ async function updateStatus(wordId){
 		console.error(error);
 		alert('ステータスの更新に失敗しました。');
 	}
+	
+}
+
+async function deleteWord(wordId) {
+	if (!confirm('本当に削除しますか？')) return;
+	try{
+		const response = await fetch(`/words/${wordId}`,{
+			method: 'DELETE'
+		});
+		
+		if (!response.ok){
+			const errorText = await response.text();
+			throw new Error(errorText || 'サーバーエラー');
+		}
+		removeWordFromList(wordId);
+	}catch(error){
+		console.error(error);
+		alert('削除に失敗しました。');
+	}
 }
 
 function createWordsList(words){
@@ -101,6 +120,9 @@ function createWordsList(words){
 		const deleteButton = document.createElement('button');
 		deleteButton.className = 'delete-button';
 		deleteButton.textContent = '削除';
+		deleteButton.addEventListener('click', () => {
+			deleteWord(word.id);
+		})
 		
 		listItem.appendChild(toggleButton);
 		listItem.appendChild(statusButton);

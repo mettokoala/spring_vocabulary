@@ -35,4 +35,14 @@ public class WordService {
 			return false;
 		}
 	}
+
+	public boolean deleteWord(Long id) {
+		Optional<Word> word = wordRepository.findById(id);
+		if (word.isPresent()) {
+			wordRepository.delete(word.get());
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
