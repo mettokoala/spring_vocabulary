@@ -70,6 +70,9 @@ function createWordsList(words){
 		const toggleButton = document.createElement('button');
 		toggleButton.className = 'toggle-text-button';
 		toggleButton.textContent = word.question;
+		toggleButton.addEventListener('click', () =>{
+			toggleButton.textContent = toggleButton.textContent === word.question ? word.answer : word.question;
+		})
 		
 		const statusButton = document.createElement('button');
 		statusButton.className = 'status-button';
