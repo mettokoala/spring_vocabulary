@@ -58,6 +58,23 @@ async function getAllWords(){
 	}
 }
 
+async function updateStatus(wordId){
+	try{
+		const response = await fetch(`/words/${wordId}`,{
+			method: 'PUT'
+		});
+		
+		if (!response.ok){
+			const errorText = await response.text();
+			throw new Error(errorText || 'サーバーエラー');
+		}
+		removeWordFromList(wordId);
+	}catch(error){
+		console.error(error);
+		alert('ステータスの更新に失敗しました。');
+	}
+}
+
 function createWordsList(words){
 	const wordListElement = document.querySelector('ul');
 	wordListElement.innerHTML = '';
@@ -77,6 +94,9 @@ function createWordsList(words){
 		const statusButton = document.createElement('button');
 		statusButton.className = 'status-button';
 		statusButton.textContent = 'OK';
+		statusButton.addEventListener('click', () => {
+			updateStatus(word.id);
+		})
 		
 		const deleteButton = document.createElement('button');
 		deleteButton.className = 'delete-button';
@@ -88,4 +108,12 @@ function createWordsList(words){
 		
 		wordListElement.appendChild(listItem);
 	})
+}
+
+function removeWordFromList(id) {
+	const wordList = document.querySelector('ul');
+	const listItem = wordList.querySelector(`li.word-item[data-word-id="${id}"]`);
+	if(listItem) {
+		listItem.remove();
+	}
 }
