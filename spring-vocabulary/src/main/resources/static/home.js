@@ -26,6 +26,8 @@ document.addEventListener('DOMContentLoaded', () =>{
 	
 	const createButton = document.getElementById('createButton');
 	createButton.addEventListener('click', createWord);
+	
+	setInterval(getAllWords, 5000);
 })
 
 async function uploadCsvFile(file){
