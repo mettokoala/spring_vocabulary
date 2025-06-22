@@ -6,6 +6,14 @@
 </head>
 <body>
 	<h1>単語帳アプリ</h1>
+	<h2>新規作成</h2>
+		<form id="createForm">
+			<label>問題：</label>
+			<textarea id="question" required></textarea><br>
+			<label>解答：</label>
+			<textarea id="answer" required></textarea><br>
+			<button type="button" id="createButton">作成</button>
+		</form>
 	<h2>CSVインポート</h2>
 	<input type="file" id="fileInput" accept=".csv">
 	<button type="button" id="importCsvButton">CSVインポート</button>

@@ -22,9 +22,10 @@ document.addEventListener('DOMContentLoaded', () =>{
 			console.error('アップロードエラー',error);
 			alert('アップロードエラー', error);
 		}
-		
-		
 	})
+	
+	const createButton = document.getElementById('createButton');
+	createButton.addEventListener('click', createWord);
 })
 
 async function uploadCsvFile(file){
@@ -72,6 +73,37 @@ async function updateStatus(wordId){
 	}catch(error){
 		console.error(error);
 		alert('ステータスの更新に失敗しました。');
+	}
+	
+}
+
+async function createWord(){
+	const question = document.getElementById('question').value.trim();
+	const answer = document.getElementById('answer').value.trim();
+	
+	if(!question || !answer) {
+		alert('問題と解答は両方入力してください。');
+		return;
+	}
+	
+	try{
+		const response = await fetch(`/words`,{
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ question, answer})
+		});
+		
+		if (!response.ok){
+			const errorText = await response.text();
+			throw new Error(errorText || 'サーバーエラー');
+		}
+		document.getElementById('createForm').reset();
+		getAllWords();
+	}catch(error){
+		console.error(error);
+		alert('単語の登録に失敗しました。');
 	}
 	
 }
